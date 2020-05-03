@@ -8,7 +8,7 @@ import {
 import { Observable, ObjectDeepPath, ObserverChange, ObserverChangesHandler } from './object-observer';
 import log from './log';
 
-const newId = () => `${Math.round(Math.random() * 100000)}`;
+const newId = () => `#${Math.round(Math.random() * 100000)}`;
 
 type Dispatcher = Dispatch<SetStateAction<any>>;
 
@@ -45,7 +45,7 @@ const defaultOptions: Options = {
 
 const BYPASS_KEY = '__bypass_next_change__';
 
-export default function createStore<T extends HashMap<any>>(initialState: T, opts: Partial<Options> = {}) {
+export default function createStore<T extends HashMap<any>>(storeName: string, initialState: T, opts: Partial<Options> = {}) {
    const options = {
       ...defaultOptions,
       ...opts,
@@ -95,7 +95,7 @@ export default function createStore<T extends HashMap<any>>(initialState: T, opt
             if (id) {
                const dispatcherWithScope = dispatchers[id];
                dispatchers[id].scope[pathStr] = true;
-               log.write('bind', `[#${accessorIds.length}] ${id}`, dispatcherWithScope.name, pathStr);
+               log.write(`${storeName}.bind`, `[#${accessorIds.length}] ${id}`, dispatcherWithScope.name, pathStr);
             }
             return;
          } else if (type === 'insert' || type === 'delete') {
@@ -103,12 +103,12 @@ export default function createStore<T extends HashMap<any>>(initialState: T, opt
          }
          changedPaths[pathStr] = true;
          if (BYPASS_KEY in change.object) {
-            log.write('detect bypass', change);
+            log.write(`${storeName}.detect bypass`, change);
             delete change.object[BYPASS_KEY];
             return;
          }
          if (isUndoableChange) {
-            log.write('modification', change);
+            log.write(`${storeName}.modification`, change);
             undoStack.push(change);
          }
       });
@@ -121,7 +121,7 @@ export default function createStore<T extends HashMap<any>>(initialState: T, opt
 
    const update = (changedPaths: BitHash) => {
       const changedKeys = Object.keys(changedPaths);
-      log.write('update', changedKeys);
+      log.write(`${storeName}.update`, changedKeys);
       Object.keys(dispatchers).forEach((id) => {
          const dispatcherWithScope = dispatchers[id];
          changedKeys.forEach(changedPath => {
@@ -143,17 +143,16 @@ export default function createStore<T extends HashMap<any>>(initialState: T, opt
       const dispatcherWithScope = dispatchers[id];
       const hash: BitHash = {};
       scopes.forEach(scope => hash[scope] = true);
-      log.write('watch', id, scopes);
+      log.write(`${storeName}.watch`, id, scopes);
       dispatcherWithScope.scope = hash;
    };
 
    const useStore = (name?: string): StoreAPI<T> => {
       const dispatcher: Dispatcher = useState()[1];
       const id = useRef(newId()).current;
-      name = JSON.stringify(name);
 
       if (options.log === true) {
-         console.group(id, name);
+         console.group(`useStore ${storeName}.${name}`, id);
       }
 
       if (!dispatchers[id]) {
@@ -166,7 +165,7 @@ export default function createStore<T extends HashMap<any>>(initialState: T, opt
          dispatchers[id] = dispatcherWithScope;
       }
 
-      log.write('push', id, name);
+      log.write(`${storeName}.push`, id, name);
       accessorIds.push(id);
 
       useEffect(() => {
@@ -176,7 +175,7 @@ export default function createStore<T extends HashMap<any>>(initialState: T, opt
       }, []);
 
       useEffect(() => {
-         log.write('pop', id, name, Object.keys(dispatchers[id].scope));
+         log.write(`${storeName}.pop`, id, name, Object.keys(dispatchers[id].scope));
          if (options.log === true) {
             console.groupEnd();
          }
@@ -211,7 +210,7 @@ export default function createStore<T extends HashMap<any>>(initialState: T, opt
          const { type, path: unfilteredPath, object, value, oldValue } = change;
          const path = filteredPath(unfilteredPath);
          redoStack.push(change);
-         log.write('undo', change);
+         log.write(`${storeName}.undo`, change);
          const key = `${path[path.length - 1]}`;
          if (type === 'update') {
             setValue(path, oldValue);
@@ -239,7 +238,7 @@ export default function createStore<T extends HashMap<any>>(initialState: T, opt
          const { type, path: unfilteredPath, object, value, oldValue } = change;
          const path = filteredPath(unfilteredPath);
          undoStack.push(change);
-         log.write('redo', change);
+         log.write(`${storeName}.redo`, change);
          const key = `${path[path.length - 1]}`;
          if (type === 'update') {
             // object[key] = value;
