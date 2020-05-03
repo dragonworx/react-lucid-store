@@ -5,20 +5,8 @@ import {
    SetStateAction,
    useRef,
 } from 'react';
-import { Observable } from './object-observer';
+import { Observable, ObjectDeepPath, ObserverChange, ObserverChangesHandler } from './object-observer';
 import log from './log';
-
-type ObjectDeepPath = Array<string | number | Symbol>;
-
-export interface ObserverChange {
-   type: 'access' | 'insert' | 'update' | 'delete' | 'shuffle' | 'reverse';
-   path: ObjectDeepPath[];
-   value: any;
-   oldValue: any;
-   object: any;
-}
-
-export type ChangesHandler = (changes: ObserverChange[]) => void;
 
 const newId = () => `${Math.round(Math.random() * 100000)}`;
 

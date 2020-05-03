@@ -1,3 +1,24 @@
+import { ChangeEvent } from "react";
+
+export type ObjectDeepPath = Array<string | number | Symbol>;
+
+export interface ObserverChange {
+   type: 'access' | 'insert' | 'update' | 'delete' | 'shuffle' | 'reverse';
+   path: ObjectDeepPath[];
+   value: any;
+   oldValue: any;
+   object: any;
+}
+
+export type ObserverChangesHandler = (changes: ObserverChange[]) => void;
+
+export interface Options {
+	enableGet?: boolean;
+	path?: string;
+	pathsOf?: string;
+	pathsFrom?: string;
+}
+
 const
 	ACCESS = 'access',
 	INSERT = 'insert',
@@ -7,8 +28,8 @@ const
 	SHUFFLE = 'shuffle',
 	sysObsKey = Symbol('system-observer-key'),
 	validOptionsKeys = { path: 1, pathsOf: 1, pathsFrom: 1, enableGet: 1 },
-	processObserveOptions = function (options) {
-		const result = {};
+	processObserveOptions = function (options: Options) {
+		const result: any = {};
 		if (typeof options.path !== 'undefined') {
 			if (typeof options.path !== 'string') {
 				console.error('"path" option, if/when provided, MUST be a non-empty string');
@@ -47,7 +68,7 @@ const
 		}
 		return result;
 	},
-	observe = function observe(observer, options) {
+	observe = function observe(this: any, observer: ObserverChangesHandler, options: Options) {
 		if (typeof observer !== 'function') {
 			throw new Error('observer parameter MUST be a function');
 		}
@@ -55,7 +76,7 @@ const
 		const
 			systemObserver = this[sysObsKey],
 			observers = systemObserver.observers;
-		if (!observers.some(o => o[0] === observer)) {
+		if (!observers.some((o: any) => o[0] === observer)) {
 			let opts;
 			if (options) {
 				opts = processObserveOptions(options);
@@ -67,7 +88,7 @@ const
 			console.info('observer may be bound to an observable only once');
 		}
 	},
-	unobserve = function unobserve() {
+	unobserve = function unobserve(this: any) {
 		const systemObserver = this[sysObsKey];
 		const observers = systemObserver.observers;
 		let ol = observers.length;
@@ -88,7 +109,7 @@ const
 			}
 		}
 	},
-	prepareArray = function (source, observer) {
+	prepareArray = function (source: any, observer: any) {
 		let l = source.length, item;
 		const target = Object.defineProperties(new Array(l), { [sysObsKey]: { value: observer }, observe: { value: observe }, unobserve: { value: unobserve } });
 		while (l--) {
@@ -101,7 +122,7 @@ const
 		}
 		return target;
 	},
-	prepareObject = function (source, observer) {
+	prepareObject = function (source: any, observer: any) {
 		const
 			keys = Object.keys(source),
 			target = Object.defineProperties({}, { [sysObsKey]: { value: observer }, observe: { value: observe }, unobserve: { value: unobserve } });
@@ -117,8 +138,8 @@ const
 		}
 		return target;
 	},
-	callObservers = function (observed, changes) {
-		let observers, pair, target, options, relevantChanges, oPath, oPaths, i, newPath, tmp;
+	callObservers = function (observed: any, changes: any[]) {
+		let observers, pair, target, options: any, relevantChanges, oPath: any, oPaths: any, i, newPath, tmp;
 		const l = changes.length;
 		do {
 			observers = observed.observers;
@@ -172,19 +193,19 @@ const
 			}
 		} while (true);
 	},
-	getObservedOf = function (item, key, parent) {
+	getObservedOf = function (item: any, key: any, parent: any) {
 		if (!item || typeof item !== 'object') {
 			return item;
 		} else if (Array.isArray(item)) {
-			return new ArrayObserver({ target: item, ownKey: key, parent: parent }).proxy;
+			return (new ArrayObserver({ target: item, ownKey: key, parent: parent }) as any).proxy;
 		} else if (item instanceof Date || item instanceof Blob || item instanceof Error) {
 			return item;
 		} else {
-			return new ObjectObserver({ target: item, ownKey: key, parent: parent }).proxy;
+			return (new ObjectObserver({ target: item, ownKey: key, parent: parent }) as any).proxy;
 		}
 	},
 	proxiedArrayMethods = {
-		pop: function proxiedPop(target, observed) {
+		pop: function proxiedPop(target: any, observed: any) {
 			const poppedIndex = target.length - 1;
 			let popResult = target.pop();
 			if (popResult && typeof popResult === 'object') {
@@ -199,7 +220,7 @@ const
 
 			return popResult;
 		},
-		push: function proxiedPush(target, observed) {
+		push: function proxiedPush(target: any, observed: any) {
 			const
 				l = arguments.length - 2,
 				pushContent = new Array(l),
@@ -220,7 +241,7 @@ const
 
 			return pushResult;
 		},
-		shift: function proxiedShift(target, observed) {
+		shift: function proxiedShift(target: any, observed: any) {
 			let shiftResult, i, l, item, tmpObserved;
 
 			shiftResult = target.shift();
@@ -247,7 +268,7 @@ const
 
 			return shiftResult;
 		},
-		unshift: function proxiedUnshift(target, observed) {
+		unshift: function proxiedUnshift(target: any, observed: any) {
 			const unshiftContent = Array.from(arguments);
 			unshiftContent.splice(0, 2);
 			unshiftContent.forEach((item, index) => {
@@ -274,7 +295,7 @@ const
 
 			return unshiftResult;
 		},
-		reverse: function proxiedReverse(target, observed) {
+		reverse: function proxiedReverse(target: any, observed: any) {
 			let i, l, item;
 			target.reverse();
 			for (i = 0, l = target.length; i < l; i++) {
@@ -292,7 +313,7 @@ const
 
 			return observed.proxy;
 		},
-		sort: function proxiedSort(target, observed, comparator) {
+		sort: function proxiedSort(target: any, observed: any, comparator: any) {
 			let i, l, item;
 			target.sort(comparator);
 			for (i = 0, l = target.length; i < l; i++) {
@@ -310,7 +331,7 @@ const
 
 			return observed.proxy;
 		},
-		fill: function proxiedFill(target, observed) {
+		fill: function proxiedFill(target: any, observed: any) {
 			const
 				changes = [],
 				tarLen = target.length,
@@ -346,7 +367,7 @@ const
 
 			return observed.proxy;
 		},
-		splice: function proxiedSplice(target, observed) {
+		splice: function proxiedSplice(target: any, observed: any) {
 			const
 				spliceContent = Array.from(arguments),
 				tarLen = target.length;
@@ -411,7 +432,13 @@ const
 	};
 
 class ObserverBase {
-	constructor(properties, cloningFunction) {
+	parent: any;
+	ownKey: any;
+	observers: any;
+	revokable: any;
+	proxy: any;
+	target: any;
+	constructor(properties: any, cloningFunction: any) {
 		const
 			source = properties.target,
 			parent = properties.parent,
@@ -430,14 +457,14 @@ class ObserverBase {
 		this.target = targetClone;
 	}
 
-	get(target, key, receiver) {
+	get(target: any, key: any, receiver: any) {
 		const value = Reflect.get(target, key, receiver);
 		const changes = [{ type: ACCESS, path: [key], value, object: this.proxy }];
 		callObservers(this, changes);
 		return value;
 	}
 
-	set(target, key, value) {
+	set(target: any, key: any, value: any) {
 		let oldValue = target[key];
 
 		if (value === oldValue) {
@@ -462,7 +489,7 @@ class ObserverBase {
 		return true;
 	}
 
-	deleteProperty(target, key) {
+	deleteProperty(target: any, key: any) {
 		let oldValue = target[key];
 
 		delete target[key];
@@ -482,7 +509,7 @@ class ObserverBase {
 }
 
 class ArrayObserver extends ObserverBase {
-	constructor(properties) {
+	constructor(properties: any) {
 		super(properties, prepareArray);
 	}
 
@@ -491,9 +518,9 @@ class ArrayObserver extends ObserverBase {
 		return this.target;
 	}
 
-	get(target, key) {
+	get(target: any, key: any) {
 		if (proxiedArrayMethods.hasOwnProperty(key)) {
-			return proxiedArrayMethods[key].bind(undefined, target, this);
+			return ((proxiedArrayMethods as any)[key] as any).bind(undefined, target, this);
 		} else {
 			return target[key];
 		}
@@ -501,7 +528,7 @@ class ArrayObserver extends ObserverBase {
 }
 
 class ObjectObserver extends ObserverBase {
-	constructor(properties) {
+	constructor(properties: any) {
 		super(properties, prepareObject);
 	}
 
@@ -516,7 +543,7 @@ class Observable {
 		throw new Error('Observable MAY NOT be created via constructor, see "Observable.from" API');
 	}
 
-	static from(target) {
+	static from(target: any) {
 		if (!target || typeof target !== 'object') {
 			throw new Error('observable MAY ONLY be created from a non-null object');
 		} else if (target[sysObsKey]) {
@@ -530,7 +557,7 @@ class Observable {
 		}
 	}
 
-	static isObservable(input) {
+	static isObservable(input: any) {
 		return !!(input && input[sysObsKey]);
 	}
 }

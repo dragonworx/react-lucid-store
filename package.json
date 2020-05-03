@@ -6,6 +6,10 @@
   "files": [ 
       "./dist/index.js"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dragonworx/react-lucid-store"
+  },
   "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "/bin/rm -fdr ./dist",
@@ -13,7 +17,7 @@
     "web:dev": "parcel ./index.html -p 3000",
     "web:watch": "parcel watch ./index.html",
     "web:build": "parcel build ./index.html",
-    "lib:prod": "yarn clean && yarn build:lib && yarn build:types",
+    "lib:prod": "yarn clean && yarn lib:build && yarn lib:types",
     "lib:build": "parcel build ./lib/index.ts",
     "lib:types": "./node_modules/typescript/bin/tsc --declaration --emitDeclarationOnly --outDir ./dist --lib es2015,dom ./lib/index.ts "
   },
