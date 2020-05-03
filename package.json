@@ -2,9 +2,11 @@
   "name": "react-lucid-store",
   "version": "0.0.3",
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "lib/index.js",
   "files": [
-    "./lib/index.js"
+    "lib/index.d.ts",
+    "lib/index.js",
+    "lib/index.js.map"
   ],
   "repository": {
     "type": "git",
