@@ -1,4 +1,4 @@
-import createStore from '~lib';
+import createStore from '~src';
 
 export interface Item {
    title: string;

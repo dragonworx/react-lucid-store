@@ -5,13 +5,13 @@
      "lib": ["es2015", "dom"],
      "target": "ES5",
      "paths": {
-       "~lib": ["./lib"]
+       "~src": ["src"]
      },
      "typeRoots": ["node_modules/@types"],
      "strict": true
    },
    "include": [
-     "./lib/**/*",
+     "src/**/*",
      "./public/**/*",
     ]
  }
