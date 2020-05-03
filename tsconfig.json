@@ -1,0 +1,17 @@
+{
+   "compilerOptions": {
+     "baseUrl": ".",
+     "jsx": "react",
+     "lib": ["es2015", "dom"],
+     "target": "ES5",
+     "paths": {
+       "~lib": ["./lib"]
+     },
+     "typeRoots": ["node_modules/@types"],
+     "strict": true
+   },
+   "include": [
+     "./lib/**/*",
+     "./public/**/*",
+    ]
+ }

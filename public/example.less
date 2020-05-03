@@ -1,0 +1,132 @@
+#example {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+
+   #title {
+      display: flex;
+      flex-direction: row;
+
+      input {
+         flex-grow: 2;
+      }
+   }
+
+   #main {
+      display: flex;
+
+   }
+
+   #items {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+
+      > * {
+         flex-grow: 1;
+         width: calc(100% - 50px);
+      }
+   }
+
+   input {
+      border: 1px solid #999;
+      background-color: #666;
+      border-radius: 5px;
+      color: white;
+      padding: 5px;
+      display: inline-block;
+      width: 70px;
+      font-family: courier;
+      font-size: 16px;
+   }
+
+   button {
+      border-radius: 5px;
+      border: 1px solid white;
+      margin: 5px;
+      padding: 5px;
+      font-weight: bold;
+      background-color: #555;
+      color: white;
+   }
+
+   label {
+      border-radius: 5px;
+      background-color: #444;
+      color: #eee;
+      margin: 5px;
+      display: inline-block;
+      padding: 0 10px;
+      vertical-align: middle;
+      padding-top: 3px;
+   }
+
+   section {
+      padding: 10px;
+      border: 1px solid #666;
+      margin: 10px;
+      border-radius: 10px;
+      background-color: rgba(0,0,0,0.1);
+   }
+
+   #list {
+      width: 300px;
+
+      ol {
+         .item {
+            display: flex;
+
+            input {
+               margin-right: 10px;
+               flex-grow: 2;
+            }
+
+            input[type="number"] {
+               max-width: 40px;
+               background-color: transparent;
+            }
+
+            .delete {
+               background-color: red;
+            }
+         }
+      }
+   }
+
+   #summary {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+
+      h1, h2, h3, h4 {
+         margin: 5px;
+         color: cyan;
+      }
+
+      h4 i {
+         font-style: normal;
+         color: white;
+      }
+
+      label {
+         font-size: smaller;
+         margin: 2px;
+      }
+   }
+
+   h1 {
+      margin: 10px;
+   }
+
+   u {
+      background-color: blue;
+      color: white;
+      font-size: smaller;
+      display: block;
+      padding: 3px;
+   }
+}

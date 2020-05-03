@@ -1,0 +1,35 @@
+{
+  "name": "react-lucid-store",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "files": [ 
+      "./dist/index.js"
+  ],
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "/bin/rm -fdr ./dist",
+    "start": "yarn web:dev",
+    "web:dev": "parcel ./index.html -p 3000",
+    "web:watch": "parcel watch ./index.html",
+    "web:build": "parcel build ./index.html",
+    "lib:prod": "yarn clean && yarn build:lib && yarn build:types",
+    "lib:build": "parcel build ./lib/index.ts",
+    "lib:types": "./node_modules/typescript/bin/tsc --declaration --emitDeclarationOnly --outDir ./dist --lib es2015,dom ./lib/index.ts "
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.25",
+    "@types/react-dom": "^16.9.5",
+    "less": "^3.11.1",
+    "parcel-bundler": "^1.12.4",
+    "react-dom": "^16.13.0",
+    "typescript": "^3.8.3",
+    "react": "^16.13.0"
+  },
+  "dependencies": {
+    "object-observer": "^2.9.3"
+  },
+  "peerDependencies": {
+    "react": "^16.13.0"
+  }
+}
