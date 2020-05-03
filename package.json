@@ -1,6 +1,6 @@
 {
   "name": "react-lucid-store",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "main": "lib/index.js",
   "files": [
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/dragonworx/react-lucid-store"
   },
-  "types": "./dist/index.d.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "start": "yarn web:dev",
     "web:clean": "/bin/rm -fdr ./dist",
