@@ -1,10 +1,10 @@
 {
   "name": "react-lucid-store",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "main": "./dist/index.js",
-  "files": [ 
-      "./dist/index.js"
+  "files": [
+    "./dist/index.js"
   ],
   "repository": {
     "type": "git",
@@ -26,13 +26,11 @@
     "@types/react-dom": "^16.9.5",
     "less": "^3.11.1",
     "parcel-bundler": "^1.12.4",
+    "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "typescript": "^3.8.3",
-    "react": "^16.13.0"
+    "typescript": "^3.8.3"
   },
-  "dependencies": {
-    "object-observer": "^2.9.3"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "^16.13.0"
   }

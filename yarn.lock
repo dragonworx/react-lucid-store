@@ -3422,11 +3422,6 @@ object-keys@^1.0.11, object-keys@^1.0.12, object-keys@^1.0.6, object-keys@^1.1.1
   resolved "https://packages.atlassian.com/api/npm/npm-remote/object-keys/-/object-keys-1.1.1.tgz#1c47f272df277f3b1daf061677d9c82e2322c60e"
   integrity sha1-HEfyct8nfzsdrwYWd9nILiMixg4=
 
-object-observer@^2.9.3:
-  version "2.9.3"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/object-observer/-/object-observer-2.9.3.tgz#567fef16b5b39d8a28bef37e4548d4966c79b10a"
-  integrity sha1-Vn/vFrWznYoovvN+RUjUlmx5sQo=
-
 object-visit@^1.0.0:
   version "1.0.1"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/object-visit/-/object-visit-1.0.1.tgz#f79c4493af0c5377b59fe39d395e41042dd045bb"
