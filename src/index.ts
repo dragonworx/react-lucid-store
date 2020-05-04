@@ -132,6 +132,10 @@ export default function createStore<T extends HashMap<any>>(storeName: string, i
       log.write(`${storeName}.update`, changedKeys);
       Object.keys(dispatchers).forEach((id) => {
          const dispatcherWithScope = dispatchers[id];
+         if (!dispatcherWithScope) {
+            // TODO: bug? happens only when deleting from array outside React loop
+            return;
+         }
          changedKeys.forEach(changedPath => {
             if (dispatcherWithScope.scope[changedPath]) {
                dispatcherWithScope.dispatcher(newId());
