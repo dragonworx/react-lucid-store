@@ -2,14 +2,18 @@ import * as React from 'react';
 import { useRef } from 'react';
 import { useStore } from './store';
 import { randomBorder } from './util';
-import log from '../src/log';
 
 export default function Title() {
-   const { store } = useStore('Title');
-   
+   const { store, useThrottledBatch } = useStore('Title');
+   const enableBatching = useThrottledBatch('title');
+
+
    const el = useRef<HTMLInputElement>(null);
 
-   const onChange = () => store.title = el.current!.value;
+   const onChange = () => {
+      enableBatching();
+      store.title = el.current!.value;
+   };
 
    return (
       <div id="title" style={randomBorder()}>
