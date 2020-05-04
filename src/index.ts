@@ -96,10 +96,6 @@ export default function createStore<T extends HashMap<any>>(storeName: string, i
          const path = filteredPath(unfilteredPath);
          const isTrackableChange = bypassChanges === false && (type === 'update' || type === 'insert' || type === 'delete');
          let pathStr = getPath(change);
-         if (bypassChanges) {
-            log.write(`${storeName}.bypass`, pathStr);
-            // return;
-         }
          if (type === 'access') {
             const id = peekAccessor();
             if (id) {
@@ -120,6 +116,7 @@ export default function createStore<T extends HashMap<any>>(storeName: string, i
                log.write(`${storeName}.batched`, pathStr, batchArray);
             } else {
                undoStack.push(change);
+               redoStack.length = 0;
             }
          }
       });
