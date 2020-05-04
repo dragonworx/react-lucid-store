@@ -1,4 +1,4 @@
-class Log {
+export default class Log {
    enabled: boolean = false;
 
    write(type: string, ...args: any[]) {
@@ -7,7 +7,3 @@ class Log {
      }
    }
 }
-
-const log = new Log();
-
-export default log;

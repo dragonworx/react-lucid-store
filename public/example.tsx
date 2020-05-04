@@ -9,12 +9,12 @@ import './example.less';
 export default function Example() {;
    return (
       <div id="example">
-         <h1>Command Store Example</h1>
+         <h1>React Lucid Store Example</h1>
          <section>
             <Undo />
             <Redo />
          </section>
-         <div id="main">
+         <div>
             <section id="list">
                <section>
                   <Title />

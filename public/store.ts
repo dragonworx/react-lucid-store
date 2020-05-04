@@ -9,10 +9,6 @@ const ITEM_COUNT = 3;
 
 export const initialState = () => ({
    title: 'My List',
-   test: [3,1,2],
-   user: {
-      name: 'Bob',
-   },
    items: Array(ITEM_COUNT).fill(0).map((i, j) => ({
       title: `Item ${j}`,
       count: 0,

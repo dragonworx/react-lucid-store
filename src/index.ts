@@ -6,7 +6,7 @@ import {
    useRef,
 } from 'react';
 import { Observable, ObjectDeepPath, ObserverChange } from './object-observer';
-import log from './log';
+import Log from './log';
 
 const newId = () => `#${Math.round(Math.random() * 100000)}`;
 
@@ -22,7 +22,7 @@ interface StoreAPI<T> {
    watch: (...paths: string[]) => void;
    batch: (...paths: string[]) => void;
    batchEnd: (...paths: string[]) => void;
-   useThrottledBatch: (...paths: string[]) => () => void;
+   useThrottledBatch: (...paths: string[]) => (timeoutMs?: number) => void;
 }
 
 interface HashMap<T> {
@@ -66,9 +66,8 @@ export default function createStore<T extends HashMap<any>>(storeName: string, i
 
    const peekAccessor = () => accessorIds[accessorIds.length - 1];
 
-   if (options.log === true) {
-      log.enabled = true;
-   }
+   const log = new Log();
+   log.enabled = options.log === true;
 
    const store = Observable.from({
       ...initialState
@@ -181,14 +180,17 @@ export default function createStore<T extends HashMap<any>>(storeName: string, i
 
    const useThrottledBatch = (id: string) => (...paths: string[]) => {
       const [ timeoutId, setTimeoutId ] = useState(-1);
-      return function () {
+      return function enableBatching(timeoutMs: number = 1000) {
+         if (timeoutId !== -1) {
+            clearTimeout(timeoutId);
+         }
          batch(id)(...paths);
-         const tid = setTimeout(() => {
+         const _timeoutId = setTimeout(() => {
             clearTimeout(timeoutId);
             batchEnd(id)(...paths);
             setTimeoutId(-1);
-         }, 1000);
-         setTimeoutId(tid);
+         }, timeoutMs);
+         setTimeoutId(_timeoutId);
       }
    };
 

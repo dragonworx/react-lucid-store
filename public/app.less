@@ -3,16 +3,68 @@ body {
    position: relative;
 }
 
+#main {
+   position: absolute;
+   left: 0;
+   top: 0;
+   right: 0;
+   bottom: 0;
+}
+
 #app {
    position: absolute;
    left: 0;
    top: 0;
    right: 0;
-   background-color: #333;
+   background: linear-gradient(0deg, #000000 0, #545454 100%);
    color: white;
    font-family: sans-serif;
    display: flex;
    flex-direction: column;
    align-items: center;
    min-height: 100%;
+}
+
+a {
+   color: white;
+}
+
+h1 {
+   text-shadow: 5px 5px 3px rgba(0,0,0,0.3);
+}
+
+a b, h3 {
+   color: cyan;
+}
+
+#navigation {
+   display: flex;
+   flex-grow: 1;
+   max-height: 40px;
+   width: 100%;
+   justify-content: space-evenly;
+
+   .tab {
+      background-color: #666;
+      flex-grow: 1;
+      text-align: center;
+      padding: 10px;
+   }
+}
+
+#content {
+   width: 100%;
+   flex-grow: 1;
+   position: relative;
+}
+
+#welcome {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.tilt {
+   font-weight: bold;
+   font-style: italic;
 }

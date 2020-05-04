@@ -11,6 +11,6 @@ export default function AddButton() {
    })
 
    return (
-      <button style={randomBorder()} onClick={onAddClick}>Add</button>
+      <button style={randomBorder()} onClick={onAddClick}>Add New Item</button>
    );
 }

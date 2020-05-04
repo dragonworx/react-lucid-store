@@ -7,11 +7,10 @@ export default function Title() {
    const { store, useThrottledBatch } = useStore('Title');
    const enableBatching = useThrottledBatch('title');
 
-
    const el = useRef<HTMLInputElement>(null);
 
    const onChange = () => {
-      enableBatching();
+      enableBatching(1000);
       store.title = el.current!.value;
    };
 

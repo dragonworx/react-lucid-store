@@ -9,7 +9,7 @@ export default function Items() {
 
    return (
       <div id="items" style={randomBorder()}>
-         <p>{items.length} Items: <AddButton /></p>
+         <p><AddButton /> {items.length} Items</p>
          <ol>{items.map((item, i) => <Item key={i} item={item} />)}</ol>
       </div>
    );
