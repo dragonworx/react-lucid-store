@@ -5,7 +5,10 @@ interface StoreAPI<T> {
     redo: () => void;
     undoCount: number;
     redoCount: number;
-    watch: (...scopes: string[]) => void;
+    watch: (...paths: string[]) => void;
+    batch: (...paths: string[]) => void;
+    batchEnd: (...paths: string[]) => void;
+    useThrottledBatch: (...paths: string[]) => () => void;
 }
 interface HashMap<T> {
     [key: string]: T;

@@ -1,6 +1,6 @@
 {
   "name": "react-lucid-store",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "main": "lib/index.js",
   "files": [
@@ -20,7 +20,7 @@
     "web:watch": "parcel watch ./index.html",
     "web:build": "parcel build ./index.html",
     "lib:clean": "/bin/rm -fdr ./lib",
-    "lib:prod": "yarn lib:clean && yarn lib:build && yarn lib:types",
+    "lib:publish": "yarn lib:clean && yarn lib:build && yarn lib:types",
     "lib:build": "parcel build ./src/index.ts --out-dir lib",
     "lib:types": "./node_modules/typescript/bin/tsc --declaration --emitDeclarationOnly --outDir ./lib --lib es2015,dom ./src/index.ts && rm lib/log.d.ts lib/object-observer.d.ts"
   },
