@@ -17,7 +17,7 @@ export default function Item({ item }: Props) {
    const onDeleteClick = () => {
       const index = items.indexOf(item);
       items.splice(index, 1);
-   }
+   };
 
    return (
       <li>

@@ -15,7 +15,8 @@ export const initialState = () => ({
    })) as Item[],
 });
 
-export type State = ReturnType<typeof initialState>;
+// quick way to export store interface
+export type Store = ReturnType<typeof initialState>;
 
 export const useStore = createStore('Example', initialState(), {
    log: true

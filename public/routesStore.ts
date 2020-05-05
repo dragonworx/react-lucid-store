@@ -1,15 +1,13 @@
 import createStore from '~src';
 
-export type Route = 'welcome' | 'example';
-
 export interface RouteStore {
-   route: Route;
+   route: 'welcome' | 'example';
 };
 
 export const initialState: RouteStore = {
-   route: 'example'
+   route: 'welcome'
 };
 
 export const useRouteStore = createStore('Routes', initialState, {
-   log: true
+   log: true,
 });

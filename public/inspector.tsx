@@ -8,7 +8,9 @@ export default function Inspector() {
    return (
       <section id="summary" style={randomBorder()}>
          <h2>Store</h2>
-         <h4>undos: <i>{undoCount}</i> redos: <i>{redoCount}</i></h4>
+         <h4>
+            undos: <i>{undoCount}</i> redos: <i>{redoCount}</i>
+         </h4>
          <pre>
             {JSON.stringify(store, null, 4)}
          </pre>

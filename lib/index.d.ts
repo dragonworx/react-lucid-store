@@ -8,7 +8,7 @@ interface StoreAPI<T> {
     watch: (...paths: string[]) => void;
     batch: (...paths: string[]) => void;
     batchEnd: (...paths: string[]) => void;
-    useThrottledBatch: (...paths: string[]) => () => void;
+    useThrottledBatch: (...paths: string[]) => (timeoutMs?: number) => void;
 }
 interface HashMap<T> {
     [key: string]: T;
