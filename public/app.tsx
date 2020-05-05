@@ -7,23 +7,13 @@ import './app.less';
 
 export function App() {
    const { store: { route } } = useRouteStore('App');
-   
-   let content;
-
-   switch (route) {
-      case 'example':
-         content = <Example />;
-         break;
-      case 'welcome':
-         content = <Welcome />;
-         break;
-   }
 
    return (
       <div id="app">
          <Navigation />
          <div id="content">
-            {content}
+            <Welcome className={route === 'welcome' ? 'show' : 'hide'} />
+            <Example className={route === 'example' ? 'show' : 'hide'} />
          </div>
       </div>
    );

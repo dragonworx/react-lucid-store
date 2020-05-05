@@ -56,6 +56,9 @@ a b, h3 {
    width: 100%;
    flex-grow: 1;
    position: relative;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
 }
 
 #welcome {
@@ -67,4 +70,18 @@ a b, h3 {
 .tilt {
    font-weight: bold;
    font-style: italic;
+}
+
+.show {
+   opacity: 1;
+   transition: opacity 2s ease-in-out;
+   visibility: visible;
+}
+
+.hide {
+   position: absolute;
+   right: 100%;
+   visibility: hidden;
+   opacity: 0;
+   transition: opacity 2s ease-in-out;
 }
